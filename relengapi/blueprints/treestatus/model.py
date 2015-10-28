@@ -6,6 +6,8 @@ from __future__ import absolute_import
 
 import json
 import logging
+import datetime
+import PyRSS2Gen
 
 from sqlalchemy import Column
 from sqlalchemy import ForeignKey
@@ -35,6 +37,40 @@ class DbTree(db.declarative_base('relengapi')):
             reason=self.reason,
             message_of_the_day=self.message_of_the_day,
         )
+
+
+class DbTreeRss(db.declarative_base('relengapi')):
+    __tablename__ = 'treestatus_trees'
+    tree = Column(String(32), primary_key=True)
+    status = Column(String(64), default="open", nullable=False)
+    reason = Column(Text, default="", nullable=False)
+    message_of_the_day = Column(Text, default="", nullable=False)
+
+    def to_rss(self):
+        rss = PyRSS2Gen.RSS2(
+        title = "Andrew's PyRSS2Gen feed",
+        link = "http://www.dalkescientific.com/Python/PyRSS2Gen.html",
+        description = "The latest news about PyRSS2Gen, a ",
+
+        lastBuildDate = datetime.datetime.now(),
+
+        items = [
+        PyRSS2Gen.RSSItem(
+        title = "PyRSS2Gen-0.0 released",
+        link = "http://www.dalkescientific.com/news/030906-PyRSS2Gen.html",
+        description = "Dalke Scientific today announced PyRSS2Gen-0.0, ",
+        guid = PyRSS2Gen.Guid("http://www.dalkescientific.com/news/"),
+        pubDate = datetime.datetime(2003, 9, 6, 21, 31)),
+        PyRSS2Gen.RSSItem(
+        title = "Thoughts on RSS feeds for bioinformatics",
+        link = "http://www.dalkescientific.com/writings/diary/",
+        description = "One of the reasons I wrote PyRSS2Gen was to ",
+        guid = PyRSS2Gen.Guid("http://www.dalkescientific.com/writings/"),
+        pubDate = datetime.datetime(2003, 9, 6, 21, 49)),
+        ])
+
+        rss.write_xml(open("pyrss2gen.rss", "w"))
+        return "ugh"
 
 
 class DbLog(db.declarative_base('relengapi')):

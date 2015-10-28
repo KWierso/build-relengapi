@@ -29,6 +29,26 @@ class JsonTree(wsme.types.Base):
     message_of_the_day = wsme.types.wsattr(unicode, mandatory=True)
 
 
+class JsonTreeRss(wsme.types.Base):
+
+    """A representation of a single tree.
+    """
+
+    _name = 'Tree'
+
+    #: the name of the tree
+    tree = wsme.types.wsattr(unicode, mandatory=True)
+
+    #: the current status
+    status = wsme.types.wsattr(unicode, mandatory=True)
+
+    #: the reason for the status
+    reason = wsme.types.wsattr(unicode, mandatory=True)
+
+    #: even more information about the status
+    message_of_the_day = wsme.types.wsattr(unicode, mandatory=True)
+
+
 class JsonTreeLog(wsme.types.Base):
 
     """ A recorded change to a tree's status or reason, along with a set of

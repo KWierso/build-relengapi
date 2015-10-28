@@ -175,6 +175,22 @@ def get_tree(tree):
     return j
 
 
+@bp.route('/trees/rss/<path:tree>')
+@public_data
+@apimethod(types.JsonTreeRss, unicode)
+def get_tree_rss(tree):
+    """
+    Get the status of a single tree as an RSS feed.
+
+    """
+    t = current_app.db.session('relengapi').query(model.DbTreeRss).get(tree)
+    if not t:
+        raise NotFound("No such tree")
+    j = t.to_rss()
+    tree_cache_set(tree, j)
+    return j
+
+
 @bp.route('/v0/trees/<path:tree>')
 @public_data
 def v0_get_tree(tree):

@@ -41,6 +41,8 @@ setup(
         "structlog",
         "mozdef_client",
         "requests_futures",
+        "PyRSS2Gen",
+        "datetime",
     ],
     extras_require={
         'test': [

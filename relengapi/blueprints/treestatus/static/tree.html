@@ -12,8 +12,11 @@
                 <span class="{{tree.status|status2class}}">{{tree.status|uppercase}}</span>
             </h2><br/>
             <h2 class="treestatus" ng-if="tree.reason">Reason:
-                <span ng-bind-html="tree.reason|linkifyBugs"></span></h2>
-            <h3 class="treestatus" ng-if="tree.message_of_the_day"
+                <span ng-if="!can_sheriff" ng-bind-html="tree.reason|linkifyBugs|linkifyURLs"></span></h2>
+                <span ng-if="can_sheriff" ng-bind-html="tree.reason|linkifyBugs"></span></h2>
+            <h3 class="treestatus" ng-if="tree.message_of_the_day && !can_sheriff"
+                ng-bind-html="tree.message_of_the_day|linkifyBugs|linkifyURLs"></h3>
+            <h3 class="treestatus" ng-if="tree.message_of_the_day && can_sheriff"
                 ng-bind-html="tree.message_of_the_day|linkifyBugs"></h3>
         </div>
     </div>
@@ -36,7 +39,7 @@
                     <td class="tableState {{log.status|status2class}}">
                         {{log.status|uppercase}}
                     </td>
-                    <td class="tableReason" ng-bind-html="log.reason|linkifyBugs"></td>
+                    <td class="tableReason" ng-bind-html="log.reason|linkifyBugs|linkifyURLs"></td>
                     <td class="tableTags">{{log.tags|list}}</td>
                 </tr>
                 <tfoot ng-hide="show_all_logs">

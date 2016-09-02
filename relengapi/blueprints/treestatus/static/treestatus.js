@@ -51,6 +51,15 @@ angular.module('treestatus').filter('list', function() {
     };
 });
 
+angular.module('treestatus').filter('linkifyURLs', function() {
+    return function(input) {
+        var str = input || '';
+        var urlpattern = /(\b(https?):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+        str = str.replace(urlpattern, '<a href="$1" target="_blank">$1</a>');
+        return str;
+    };
+});
+
 // borrowed from https://github.com/mozilla/treeherder/blob/d5ae8deb9f041ce538eee1a5d8d05c60f09e56be/ui/js/filters.js#L40-L71
 angular.module('treestatus').filter('linkifyBugs', function($sce) {
     return function(input) {
